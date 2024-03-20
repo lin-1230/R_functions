@@ -23,8 +23,10 @@ heBing <- function(SeuratList,cellType=''){
   
   ## @date 2024/03/20, 增加了对输入的list只有一个样本的情况
   ## 直接输出List，不需要合并
-  if(length(SeuratList == 1)){
-    return(SeuratList)
+  if(length(SeuratList) == 1){
+    ## @date 2024/03/20, 增加了索引[[1]],这样子返回的就不是list，
+    ## 而是Seurat对象
+    return(SeuratList[[1]])
   }
   
   
@@ -79,6 +81,7 @@ heBingMatrixToSeurat <- function(tumorMatrix,
   seuratObject <- heBing(c(tumorSeurat,transitionSeurat))
   
   seuratObject$group <- c(rep('tumor',ncol(tumorSeurat)),rep('transition',ncol(transitionSeurat)))
+  #colnames(seuratObject) <- paste0(seuratObject$group,'_',colnames(seuratObject))
   return(seuratObject)
 }
 
