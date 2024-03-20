@@ -21,6 +21,13 @@ heBing <- function(SeuratList,cellType=''){
   ## cellType，字符类型，表示细胞的类型，用于Seurat merge函数的add.cell.ids参数，
   ## 用于区分不同样本
   
+  ## @date 2024/03/20, 增加了对输入的list只有一个样本的情况
+  ## 直接输出List，不需要合并
+  if(length(SeuratList == 1)){
+    return(SeuratList)
+  }
+  
+  
   a <- c()
   for (i in 1:length(SeuratList)) {
     if (!is.null(SeuratList[[i]])){
