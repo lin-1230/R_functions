@@ -12,8 +12,8 @@ juLei <- function(SCseuratOb,
   
   ## SCseuratOb,单细胞seurat 对象
   
-  ## upGeneBulk，character,bulk数据中疾病相对正常上调的基因名称向量
-  ## downGeneBulk，character,bulk数据中疾病相对正常下调的基因名称向量
+  ## upGeneBulk，character,bulk数据中疾病相对正常上调的基因名称向量，长度为50（没有硬性要求，但是我和师姐是这么讨论的）
+  ## downGeneBulk，character,bulk数据中疾病相对正常下调的基因名称向量，长度为50（没有硬性要求，但是我和师姐是这么讨论的）
   
   ## bulkSeuratOb，bulk的seurat对象
   ## bulkLable，character，根据bulk数据样本顺序的样本标签，一般带有疾病缩写和Normal标签
@@ -60,6 +60,8 @@ juLei <- function(SCseuratOb,
     ## 差异基因，所以第一次循环不需要做差异
     if (i != 1){
       
+      ## limma包差异分析流程
+      ## 制作design矩阵
       group <- as.factor(unname(result_p$cluster))
       design <- model.matrix(~0+group)
       row.names(design) <- colnames(SCseuratOb)
@@ -72,26 +74,18 @@ juLei <- function(SCseuratOb,
       fit <- lmFit(v, design)
       
       
-      ## 需要使用的变量
-      #resultPC1 <- unname(which(result_p$cluster == 1))
-      #resultPC2 <- unname(which(result_p$cluster == 2))
-      #upMeanScore1 <- mean(scoreDF$upGeneScore[resultPC1])
-      #upMeanScore2 <- mean(scoreDF$upGeneScore[resultPC2])
-      ##downMeanScore1 <- mean(scoreDF$downGeneScore[resultPC1])
-      #downMeanScore2 <- mean(scoreDF$downGeneScore[resultPC2])
-      
-      
-      
       cont.matrix <- makeContrasts(contrasts = c('group1-group2'), levels = design)
       fit2 <- contrasts.fit(fit, cont.matrix)
       fit2 <- eBayes(fit2)
       nrDEG_limma_voom = topTable(fit2, coef = 'group1-group2', n = Inf)
       nrDEG_limma_voom = na.omit(nrDEG_limma_voom)
+      ## 取出矫正后p值小于0.05的结果
       nrDEG_limma_voom <- nrDEG_limma_voom[nrDEG_limma_voom[,5] < 0.05,]
+      ## 排序
       nrDEG_limma_voom <- nrDEG_limma_voom[order(nrDEG_limma_voom[,1]),]
       
       
-      
+      ## 取出上下调
       nrDEG_limma_voom_up <- nrDEG_limma_voom[nrDEG_limma_voom[,1]>0,]
       nrDEG_limma_voom_down <- nrDEG_limma_voom[nrDEG_limma_voom[,1] < 0,]
       
@@ -198,7 +192,7 @@ juLei <- function(SCseuratOb,
       ## 一：两次迭代的时候细胞比率变化小
       ## 二：细胞身份的稳定比率达到stable_threshold阈值
       if(abs(rCell-rCell_p) < radio_threshold){ 
-        if ((r1 > stable_threshold && r4 > stable_threshold) || (r2 > stable_threshold && r3 > stable_threshold  )){
+        if ((r1 > stable_threshold && r4 > stable_threshold) || (r2 > stable_threshold && r3 > stable_threshold )){
           
           ## 达到迭代停止条件后，最后再将细胞分为3类（默认情况下k=3）
           ## 恶性细胞、正常细胞、中间态细胞（不确定的细胞）
@@ -221,10 +215,12 @@ juLei <- function(SCseuratOb,
           print(paste0('bulkUpGeneScoreMean_disease:',bulkUpGeneScoreMean_disease,';bulkUpGeneScoreMean_normal:',bulkUpGeneScoreMean_normal))
           
           ## 如果最后一次循环的上调基因评分中，疾病的评分小于正常细胞的评分
+          ## 说明该上调基因实际上应该是疾病相对正常的下调基因
           ## 则修改得分数据库的列名，将上调基因更改为下调
           ## 将下调更改为上调
           if (bulkUpGeneScoreMean_disease < bulkUpGeneScoreMean_normal){
             colnames(scoreDF) <- c('downGeneScore','upGeneScore')
+            colnames(result$centers) <- c('downGeneScore','upGeneScore')
           }
           
           ## 返回结果，返回的结果分3个，第一个元素是最后一次循环kMeans的结果
