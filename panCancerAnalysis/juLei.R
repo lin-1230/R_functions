@@ -220,6 +220,9 @@ juLei <- function(SCseuratOb,
           ## 将下调更改为上调
           if (bulkUpGeneScoreMean_disease < bulkUpGeneScoreMean_normal){
             colnames(scoreDF) <- c('downGeneScore','upGeneScore')
+            # @ date 2024/03/21，增加了对kmeans结果（result变量）
+            # 的修改，这样子才不会在exacMatrixFromJuLeiRes函数中
+            # 导致提取出的正常和疾病矩阵相反
             colnames(result$centers) <- c('downGeneScore','upGeneScore')
           }
           
