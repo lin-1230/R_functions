@@ -1,11 +1,14 @@
 
-exacMatrixFromJuLeiRes <- function(juLeiResult){
+exacMatrixFromJuLeiRes <- function(juLeiResult,
+                                   seuratOB){
   
   ##这是一个从聚类的结果（juLei那个函数）中
   ##分别提取出肿瘤细胞、正常细胞、中间态细胞矩阵的函数
   
  
   #juLeiResult，List，juLei函数返回的结果
+  #@ date 2024/03/26 添加
+  #seuratOB,seurat对象，需要提取不同细胞的单细胞数据的seurat对象
   
   ## 创建存放三个结果的List
   normalMatrix <- list()
@@ -34,7 +37,9 @@ exacMatrixFromJuLeiRes <- function(juLeiResult){
         transitionCluster <- setdiff(c(1,2,3),c(cancerCluster,normalCluster))
         
         ## 根据序号取出每种类别的表达谱数据
-        countData <- data_GSE182434[[i]]@assays$RNA@counts
+        ## @date 2024/03/26 将代码中使用的data_GSE182434（DLBCL的数据集，应该是忘记更换了）
+        ## 替换成了seuratOB
+        countData <- seuratOB[[i]]@assays$RNA@counts
         tumorMatrix[[i]] <- as.matrix(countData[,unname(which(a[[1]]$cluster==cancerCluster))])
         normalMatrix[[i]] <- as.matrix(countData[,unname(which(a[[1]]$cluster==normalCluster))])
         transitionMatrix[[i]] <- as.matrix(countData[,unname(which(a[[1]]$cluster==transitionCluster))])
@@ -46,7 +51,7 @@ exacMatrixFromJuLeiRes <- function(juLeiResult){
         normalCluster <- which.min(as.data.frame(a[[1]]$centers)$upGeneScore)
         
         ## 根据序号取出每种类别的表达谱数据
-        countData <- data_GSE182434[[i]]@assays$RNA@counts
+        countData <- seuratOB[[i]]@assays$RNA@counts
         
         ## 由于样本中取出了一些中间态细胞，所以不能直接用顺序取细胞
         ## 而需要通过匹配
