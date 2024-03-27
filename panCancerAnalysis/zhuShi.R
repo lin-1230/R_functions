@@ -18,15 +18,15 @@ zhuShi <- function(seuratOB,
   ## markList,List,包含每个细胞的marker 的List
   ## 每一列是一种细胞,命名规则统一为：Tcell、Bcell、NKcell
   ## markList创建示例：
-   markList <- list(Tcell=c("CD3D",'CD3E','CD8A','CD8B','CD7','IL7R','NKG7','GNLY','GZMA','FGFBP2','PRF1'),
-                          Bcell=c("MS4A1","CD79A",'CD79B','CD19','IGLL1','IL4R','MZB1','IGHG1','SDC1','JCHAIN','IGHG3'),
-                          NKcell=c('KLRC1',"GNLY","NKG7",'FGFBP2','PRF1'),
-                          Monocyte=c('LYZ',"CD14","CD68",'FCN1','APOBEC3A','THBS1'),
-                          DCs=c('FCER1A','CLEC10A','LILRA4'),
-                          Neutrophils=c('MPO','AZU1','ELANE','CST3','FCGR3B','CSF3R','LTF'),
-                          Macrophage=c('FCGR3A',"CD163","CD68"),
-                          Erythroblast=c('HBA','HBB'),
-                          HSCs=c('SPINK2','CRHBP','LAPTM4B','CLEC3B','ATP8B4','CRYGD','ELN','EXD2'))
+  ## markList <- list(Tcell=c("CD3D",'CD3E','CD8A','CD8B','CD7','IL7R','NKG7','GNLY','GZMA','FGFBP2','PRF1'),
+  ##                         Bcell=c("MS4A1","CD79A",'CD79B','CD19','IGLL1','IL4R','MZB1','IGHG1','SDC1','JCHAIN','IGHG3'),
+  ##                         NKcell=c('KLRC1',"GNLY","NKG7",'FGFBP2','PRF1'),
+  ##                         Monocyte=c('LYZ',"CD14","CD68",'FCN1','APOBEC3A','THBS1'),
+  ##                         DCs=c('FCER1A','CLEC10A','LILRA4'),
+  ##                         Neutrophils=c('MPO','AZU1','ELANE','CST3','FCGR3B','CSF3R','LTF'),
+  ##                         Macrophage=c('FCGR3A',"CD163","CD68"),
+  ##                         Erythroblast=c('HBA','HBB'),
+  ##                         HSCs=c('SPINK2','CRHBP','LAPTM4B','CLEC3B','ATP8B4','CRYGD','ELN','EXD2'))
   
   
   ## outPutDir,character,所有结果输出的位置
