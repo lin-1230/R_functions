@@ -1,6 +1,6 @@
 ## 批量matrix转话为Seurat对象
 matrixToSeurat <- function(matrixList){
-  
+  library(Seurat)
   ## matrixList，带有matrix 的list，该函数将list中的matirx
   ## 都转换为Seurat对象
   
