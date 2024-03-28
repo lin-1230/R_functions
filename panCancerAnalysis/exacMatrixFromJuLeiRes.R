@@ -27,7 +27,6 @@ exacMatrixFromJuLeiRes <- function(juLeiResult,
       print(i)
       
       
-      
       ## 如果list有三个元素，说明这个样本是经历过死循环的样本（详见juLei函数）
       ## 有死循环的样本，因为去掉了中间态细胞重新跑了一次，
       ## 所以提取方式有所不同，所以做一个判断
