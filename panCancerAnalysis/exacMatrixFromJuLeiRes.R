@@ -17,11 +17,16 @@ exacMatrixFromJuLeiRes <- function(juLeiResult,
   
   ## 遍历每个样本的结果
   for (i in 1:length(juLeiResult)){
-    ## 如果该样本没有结果就跳过
-    if (juLeiResult[[i]] != '没有差异基因' &&  juLeiResult[[i]] != '超出迭代范围' && !is.null(juLeiResult[[i]])){
+    ## @date 2024/03/28 修改bug
+    ## 因为if判断，当juLeiResult[[i]]有三个元素，但是判断标准是
+    ## !='没有差异基因'，这个时候会报错，所以进行如下修改
+    a <- juLeiResult[[i]]
+    ## 如果该样本没有结果就跳过,当a的长度大于1的时候
+    ## 说明有结果
+    if (length(a) > 1){
       print(i)
       
-      a <- juLeiResult[[i]]
+      
       
       ## 如果list有三个元素，说明这个样本是经历过死循环的样本（详见juLei函数）
       ## 有死循环的样本，因为去掉了中间态细胞重新跑了一次，
