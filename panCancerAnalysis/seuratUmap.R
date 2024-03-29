@@ -1,6 +1,7 @@
 seuratUmap <-  function(seuratOb,
-                        pdfOutDir='',
-                        umapResolution=0.5,
+                       pdfOutDir='',
+                       #RDSDir='',
+                       umapResolution=0.5,
                        autoSelectPcaDim=T,
                        selectPcaDim=0,
                        nfeatures=2000,
@@ -42,6 +43,12 @@ seuratUmap <-  function(seuratOb,
   seuratOb <- FindNeighbors(seuratOb, dims = 1:selectPcaDim)
   seuratOb <- FindClusters(seuratOb, resolution = umapResolution)
   seuratOb <- RunUMAP(seuratOb, dims = 1:selectPcaDim)
+  
+  ## @date 2024/03/29 由于保存后的RDS太大了
+  ## 效率不如重新跑一遍，所以算了
+  #print('开始保存umap降纬后的单细胞数据')
+  #saveRDS(seuratOb,RDSDir)
+  #print('保存结束')
   
   pdf(pdfOutDir,width = 15)
   plot1 <- DimPlot(seuratOb, reduction = "umap")
