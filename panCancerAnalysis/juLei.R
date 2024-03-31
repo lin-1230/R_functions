@@ -5,6 +5,7 @@ juLei <- function(SCseuratOb,
                   bulkLable,
                   disease,
                   #logDir,
+                  Top = 50,
                   unClassedCellLoc=NULL,
                   k=3,
                   stable_threshold=0.8,
@@ -33,6 +34,8 @@ juLei <- function(SCseuratOb,
   ## nbin, numeric,addModuleScore函数的参数，详见该参数的帮助。如：10
   
   ## logDir,character,log文件存放的位置，带文件名称
+  ## @date 2024/03/31 
+  ## 新增Top参数，int，指的是循环过程中，需要提取的多少个基因
   
   ## 引用Seurat
   library(Seurat)
@@ -98,15 +101,15 @@ juLei <- function(SCseuratOb,
       
       
       ## 如果差异基因没有50个，就取所有的显著差异基因
-      ## 如果大于50个，就取FC最大的50个
-      if (nrow(nrDEG_limma_voom_up) > 50 ){
-        upGene <- row.names(nrDEG_limma_voom)[(nrow(nrDEG_limma_voom)-49):nrow(nrDEG_limma_voom)]
+      ## 如果大于50个，就取FC最大的top个
+      if (nrow(nrDEG_limma_voom_up) > Top ){
+        upGene <- row.names(nrDEG_limma_voom)[(nrow(nrDEG_limma_voom)-(Top-1)):nrow(nrDEG_limma_voom)]
       }else{
         upGene <- row.names(nrDEG_limma_voom_up)
       }
       
-      if (nrow(nrDEG_limma_voom_down) > 50 ){
-        downGene <- row.names(nrDEG_limma_voom)[1:50]
+      if (nrow(nrDEG_limma_voom_down) > Top ){
+        downGene <- row.names(nrDEG_limma_voom)[1:Top]
       }else{
         downGene <- row.names(nrDEG_limma_voom_down)
       }
