@@ -4,7 +4,7 @@ juLei <- function(SCseuratOb,
                   bulkSeuratOb,
                   bulkLable,
                   disease,
-                  logDir,
+                  #logDir,
                   unClassedCellLoc=NULL,
                   k=3,
                   stable_threshold=0.8,
@@ -39,7 +39,7 @@ juLei <- function(SCseuratOb,
   library(edgeR)
   
   ## @date 2024/03/28 将输出重定向到文件中，方便查错
-  sink(logDir)
+  # sink(logDir)
   
   
   upGeneScore <- AddModuleScore(object = SCseuratOb,features = list(upGeneBulk),nbin = nbin)
@@ -297,7 +297,7 @@ juLei <- function(SCseuratOb,
     rCell_p <- rCell
   }
   
-  sink()
+  #sink()
   return (list(result_p,scoreDF,unClassedCellLoc))
 }
 
