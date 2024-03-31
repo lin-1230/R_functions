@@ -20,6 +20,7 @@ seuratUmap <-  function(seuratOb,
   library(stringr)
   library(Seurat)
   
+  
   seuratOb <- NormalizeData(seuratOb)
   all.genes <- rownames(seuratOb)
   seuratOb <- ScaleData(seuratOb, features = all.genes)
@@ -51,7 +52,7 @@ seuratUmap <-  function(seuratOb,
   #print('保存结束')
   
   pdf(pdfOutDir,width = 15)
-  plot1 <- DimPlot(seuratOb, reduction = "umap")
+  plot1 <- DimPlot(seuratOb, reduction = "umap",raster = F)
   print(plot1)
   dev.off()
   
