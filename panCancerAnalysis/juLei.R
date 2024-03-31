@@ -300,3 +300,4 @@ juLei <- function(SCseuratOb,
   sink()
   return (list(result_p,scoreDF,unClassedCellLoc))
 }
+
