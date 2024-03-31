@@ -276,7 +276,7 @@ juLei <- function(SCseuratOb,
           ## 递归调用自身，再次分配一次细胞身份，这里k为2
           ## 这群不能被分类的细胞，我们认为是中间态细胞
           ## 所以最后循环只要分两次就行
-          return (juLei(SCseuratOb[,classedCellLoc],upGeneBulk,downGeneBulk,bulkSeuratOb,bulkLable,disease,unClassedCellLoc,k=2))
+          return (juLei(SCseuratOb[,classedCellLoc],upGeneBulk,downGeneBulk,bulkSeuratOb,bulkLable,disease,Top,unClassedCellLoc,k=2))
           
           
         }
